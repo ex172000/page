@@ -1,0 +1,21 @@
+title: Qichao Chu
+url: "https://ex172000.github.io"
+baseurl: ""
+
+markdown: kramdown
+
+tracking_id: #
+
+footer: yes
+footer_url: "https://github.com/ex172000"
+footer_text: "Belmont, CA | find.qichao@gmail.com"
+
+sass:
+    style: compressed
+    sass_dir: _sass
+
+nav:
+ - name: "About"
+   link: "/"
+ - name: "Resume"
+   link: "resume.pdf"
