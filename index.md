@@ -10,8 +10,7 @@ Based in Belmont, CA | [find.qichao@gmail.com](mailto:find.qichao@gmail.com)
 
 ## Experience
 
-**Staff Software Engineer, Tech Lead Manager (TLM)** | Uber, Kafka - Platform Engineering
-*Dec 2020 - Present | Sunnyvale, CA*
+**Software Engineer, Tech Lead Manager (TLM)** | Uber, Kafka - Platform Engineering
 
 Led Uber's trip-critical Kafka Messaging platform (Kafka Consumer Proxy/uForwarder, Kafka REST Proxy, uReplicator), accountable for reliability, on-call outcomes, and roadmap execution.
 
@@ -21,17 +20,15 @@ Led Uber's trip-critical Kafka Messaging platform (Kafka Consumer Proxy/uForward
 - Owned uGroup (Kafka consumer monitoring) end-to-end
 - ex-TLM of Kafka Control Plane, enhanced internal Kafka metadata management with cloud-like experience. Strengthened cross-region reliability through source-of-truth re-architecture
 
-**Knowledge Platform Founding Member** | Uber
-*Supporting Online Data AI transformation*
+Knowledge Platform Founding Member. Supporting Online Data AI transformation
 
 - Built efficient CPU-based embedding generation service for large-scale near realtime ingestion
 - Built knowledge data intake (WebSocket push, API fetch, etc) service featuring OpenSearch indexing, LanceDB persistence, and taxonomy/ontology extraction
 
-**Active Uber Ring0 First Responder**
+Active Uber Ring0 First Responder
 Global incident responder / incident commander: coordinated cross-team mitigations including lockdowns and failovers during SEVs.
 
-**Tech Lead** | Uber, Money - Core Services
-*Nov 2018 - Dec 2020 | Amsterdam, The Netherlands*
+**Software Engineer** | Uber, Money - Core Services
 
 Tech Lead of Collections & Cashouts team, moving money in and out of Uber for the areas of arrears collection and driver cashout, in a secure, efficient and scalable way.
 
@@ -39,21 +36,18 @@ Tech Lead of Collections & Cashouts team, moving money in and out of Uber for th
 - Integrated UberPay in arrears collection, instantly unlocking more payment service providers in different regions without repeated integration
 
 **Software Engineer** | Uber, Identity - Security Engineering
-*Jan 2018 - Nov 2018 | San Francisco, CA*
 
 - Maintained Uber's 3rd party customer identity platform for OAuth and external provider integrations
 - Implemented both backend and frontend changes for new Alipay-Uber integration
 - Enabled Uber in Google Maps with new JWT-based 3rd-party integration
 
-**Member of Technical Staff III** | VMware, Network & Security Business Unit
-*Feb 2016 - Jan 2018 | Palo Alto, CA*
+**Member of Technical Staff** | VMware, Network & Security Business Unit
 
 - Implemented CDO mode IPS mode cluster level API
 - Enhanced NSX-V product security for FIPS certification, including upstream (Python) patches
 - Implemented CLI and daemon to support Java profiling on NSX-T/V Controllers
 
 **Software Engineer Intern** | Alibaba Group, Data Technology & Product Division
-*May 2015 - Jul 2015 | Hangzhou, China*
 
 - Built an Apache Storm and Apache Kafka based large scale realtime crawler, with peak performance of 10M pages/day
 
@@ -65,7 +59,5 @@ Tech Lead of Collections & Cashouts team, moving money in and out of Uber for th
 ## Education
 
 **Master of Science in Electrical & Computer Engineering** | Georgia Institute of Technology
-*Aug 2014 - Dec 2015 | Atlanta, GA*
-GPA: 3.81/4
 
 Research Assistant, Contributed to DoE ARPA-E with data collection application CommuteWarrior
