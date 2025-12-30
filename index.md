@@ -10,7 +10,7 @@ Hi, this is Qichao, Staff Software Engineer and Tech Lead Manager at Uber, speci
 
 **Software Engineer, Tech Lead Manager (TLM)** | Uber, Kafka - Platform Engineering
 
-Led Uber's trip-critical Kafka Messaging platform (Kafka Consumer Proxy/uForwarder, Kafka REST Proxy, uReplicator), accountable for reliability, on-call outcomes, and roadmap execution.
+Led Uber's trip-critical Kafka Messaging platform ([Kafka Consumer Proxy](https://www.uber.com/blog/kafka-async-queuing-with-consumer-proxy/)/uForwarder, Kafka REST Proxy, [uReplicator](https://www.uber.com/blog/ureplicator-apache-kafka-replicator/)), accountable for reliability, on-call outcomes, and roadmap execution.
 
 - Drove platform architecture: replication re-architecture, Flink-based ingestion, and AutoMQ/RBS adoption to improve durability and operational simplicity
 - Cut consumer incident mitigation from ~3 hours to ~30 minutes by designing freshness-restore + automated failover/backfill workflows across KCP and replication pipelines
