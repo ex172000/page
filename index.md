@@ -6,6 +6,8 @@ layout: default
 
 Hi, this is Qichao, Staff Software Engineer and Tech Lead Manager at Uber, specializing in distributed systems and messaging platforms. Currently leading Uber's trip-critical Kafka Messaging platform, responsible for reliability, on-call outcomes, and roadmap execution. Passionate about building scalable infrastructure that powers mission-critical services.
 
+Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sailor, and an occasional marathon runner.
+
 ## Experience
 
 **Software Engineer, Tech Lead Manager (TLM)** | Uber, Kafka - Platform Engineering
