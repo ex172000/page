@@ -1,6 +1,6 @@
 title: Qichao Chu
 url: "https://ex172000.github.io"
-baseurl: ""
+baseurl: "/ex172000"
 
 markdown: kramdown
 
@@ -16,6 +16,6 @@ sass:
 
 nav:
  - name: "About"
-   link: "/"
+   link: "/ex172000/"
  - name: "Resume"
    link: "resume.pdf"
