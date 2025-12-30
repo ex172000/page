@@ -18,12 +18,12 @@ Led Uber's trip-critical Kafka Messaging platform ([Kafka Consumer Proxy](https:
 - Owned uGroup (Kafka consumer monitoring) end-to-end
 - ex-TLM of Kafka Control Plane, enhanced internal Kafka metadata management with cloud-like experience. Strengthened cross-region reliability through source-of-truth re-architecture
 
-*Knowledge Platform Founding Member*. Supporting Online Data AI transformation with:
+Also, *Knowledge Platform Founding Member*. Supporting Online Data AI transformation with:
 
 - Built efficient CPU-based embedding generation service for large-scale near realtime ingestion
 - Built knowledge data intake (WebSocket push, API fetch, etc) service featuring OpenSearch indexing, LanceDB persistence, and taxonomy/ontology extraction
 
-*Active Uber Ring0 First Responder* Safeguarding the entire Uber as a Global incident responder / incident commander: coordinated cross-team mitigations including lockdowns and failovers during SEVs.
+Additionally, *Active Uber Ring0 First Responder*. Safeguarding the entire Uber as a Global incident responder / incident commander: coordinated cross-team mitigations including lockdowns and failovers during SEVs.
 
 **Software Engineer** | Uber, Money - Core Services
 
