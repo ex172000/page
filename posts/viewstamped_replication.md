@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Viewstamped Replication Revisited: Determinism, Throughput, and Practical Distributed Systems"
+---
+
 # Viewstamped Replication Revisited: Determinism, Throughput, and Practical Distributed Systems
 
 ## Background
