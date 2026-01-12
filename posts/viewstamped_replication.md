@@ -1,9 +1,12 @@
 ---
 layout: default
 title: "Viewstamped Replication Revisited: Determinism, Throughput, and Practical Distributed Systems"
+date: 2025-01-11
 ---
 
 # Viewstamped Replication Revisited: Determinism, Throughput, and Practical Distributed Systems
+
+_Published: January 11, 2025_
 
 ## Background
 
