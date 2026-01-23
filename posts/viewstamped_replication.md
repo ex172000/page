@@ -7,6 +7,7 @@ date: 2025-01-11
 # Viewstamped Replication Revisited: Determinism, Throughput, and Practical Distributed Systems
 
 _Published: January 11, 2025_
+_Modified (v2): January 22, 2026_
 
 ## Background
 
@@ -79,29 +80,41 @@ This bounds log size and enables fast recovery without replaying the full histor
 
 ### Efficient State Transfer: The Merkle Tree Tradeoff
 
-Rather than transferring entire snapshots, the revisited protocol uses **Merkle tree–based state comparison**. A recovering replica fetches only the portions of state that differ from a healthy peer. This significantly reduces recovery bandwidth and time, especially for large states.
+Rather than transferring entire snapshots, the revisited protocol uses **Merkle tree–based state comparison**. A recovering replica fetches only the portions of state that differ from a healthy peer, significantly reducing recovery bandwidth for large states.
 
-However, this comes at a computational cost that the paper understates. Maintaining Merkle trees requires:
+**The paper presents Merkle trees as the efficient approach, but practical tradeoffs require careful consideration:**
+
+Maintaining Merkle trees requires:
 - Tree recomputation on every state mutation (or lazy recomputation with complexity)
 - Additional memory overhead for tree nodes
 - CPU cycles for hash computation
 
-For small to medium state sizes (<10GB), simple snapshot transfers may actually be faster and simpler. The Merkle approach only pays off when:
-1. State size is large enough that network transfer dominates
-2. State updates are localized (so most tree branches don't need recomputation)
-3. Recovery is frequent enough to justify the implementation complexity
+**When Merkle trees excel:**
+1. State size is large (>10GB) where network transfer dominates
+2. State updates are localized (most tree branches don't need recomputation)
+3. Recovery is frequent enough to justify implementation complexity
+4. Incremental sync is critical for operational efficiency
 
-This is why TigerBeetle, despite being VR-based, uses a hybrid approach: snapshots for full recovery, incremental sync for catching up recent operations.
+**When simple snapshots suffice:**
+- Small to medium state sizes (<10GB) where transfer time is acceptable
+- Highly dynamic state where tree recomputation overhead is high
+- Simpler operational requirements
+
+TigerBeetle demonstrates a pragmatic hybrid: snapshots for full recovery, incremental Merkle-based sync for catching up recent operations. This balances implementation complexity with operational efficiency.
 
 ### Disk Is an Optimization, Not a Requirement
 
-A subtle but important claim in the paper is that **neither normal operation nor view changes require disk writes for correctness**. Disk persistence is used to accelerate recovery, not to ensure safety under the crash-fault model.
+A subtle but important claim in the paper is that **neither normal operation nor view changes require synchronous disk writes for correctness**. This is often misunderstood as "VR doesn't need disks," which is inaccurate.
 
-This distinction is often lost in industry discussions, where durability and consensus are conflated by default.
+**The correct interpretation:** VR doesn't require *synchronous* disk writes in the critical path (avoiding fsync latency), but it requires *asynchronous checkpointing* to durable storage for practical resilience.
 
-**But here's the uncomfortable truth:** While theoretically correct, diskless consensus has a severe practical limitation—**correlated failures**. If all replicas lose power simultaneously (datacenter power failure, kernel panic from bad deployment, etc.), an in-memory-only system loses all state. Liskov and Cowling acknowledge this but dismiss it as "rare." In production systems serving millions of users, even rare events happen regularly.
+**Why this matters:**
+- **Performance benefit:** No fsync in commit path enables VR's high throughput
+- **Safety under crash-faults:** Quorum-based replication ensures correctness even if individual replicas crash
+- **Correlated failure vulnerability:** Datacenter power loss or widespread kernel panic could cause total data loss without checkpoints
+- **Production requirement:** Periodic async checkpointing is essential, not optional
 
-The correct interpretation is: VR doesn't require *synchronous* disk writes in the critical path, but periodic asynchronous checkpointing to durable storage is still essential for real systems.
+This nuanced tradeoff—eliminating synchronous disk I/O while requiring eventual durability—is central to VR's design philosophy.
 
 ---
 
@@ -276,15 +289,24 @@ This has architectural implications:
 - State shared between data plane and control plane can be unified
 - Failure semantics become simpler, at the cost of higher rigor in the replication layer
 
-In some internal systems, such as those relying on custom RPC frameworks (e.g., uForwarder core), this separation introduces complexity and additional failure modes. A sufficiently fast and deterministic replicated state may provide a cleaner abstraction boundary.
+**When this approach works well:**
 
-**However, I'm skeptical of this "collapse everything into consensus" approach** for most systems. Here's why:
+For domain-specific systems like TigerBeetle, collapsing control and data planes into a single consensus group succeeds because:
+- Ledger operations are inherently coordination-heavy
+- The domain model is deterministic by nature
+- Single point of coordination simplifies reasoning about correctness
 
-1. **Blast radius:** Putting control and data on the same consensus group means a consensus bug or performance issue affects everything
-2. **Scalability ceiling:** Even at 1M TPS, you'll eventually hit limits; it's easier to scale independent data and control planes
-3. **Operational complexity:** Debugging a unified system is harder than debugging separated concerns
+In some internal systems relying on custom RPC frameworks (e.g., uForwarder core), separation introduces complexity and failure modes that unified consensus could eliminate.
 
-The right pattern is: **Use VR (or any consensus) for the minimum necessary coordination, keep data plane operations independent.** TigerBeetle succeeds partly because ledger operations are inherently coordination-heavy; most systems aren't.
+**When to approach with caution:**
+
+For most general-purpose distributed systems, consider these tradeoffs carefully:
+
+1. **Blast radius:** Consensus bugs or performance issues affect both control and data planes simultaneously
+2. **Scalability ceiling:** Even at 1M TPS, limits exist; independent planes scale more easily
+3. **Operational complexity:** Unified systems trade separation of concerns for tighter coupling
+
+**Recommended pattern:** Use VR (or any consensus) for the minimum necessary coordination, keep data plane operations independent unless your domain naturally requires tight coupling. The decision depends on whether your workload resembles TigerBeetle's coordination-heavy model or requires independent scaling of control and data concerns.
 
 ---
 
@@ -294,19 +316,7 @@ Despite its merits, VR faces several adoption barriers:
 
 ### 1. Ecosystem Inertia
 
-Raft succeeded not because it is strictly superior, but because it is easier to explain and has a rich ecosystem of libraries and operational knowledge.
-
-**Concrete ecosystem gap for VR:**
-- Raft: etcd, Consul, CockroachDB, TiKV, plus libraries in 20+ languages
-- VR: TigerBeetle (Zig), handful of experimental Rust implementations
-
-When you adopt Raft, you get:
-- Production-hardened implementations
-- Monitoring dashboards (Grafana templates, etc.)
-- Operational runbooks
-- Engineers who've debugged Raft issues before
-
-With VR, you're mostly on your own.
+Raft succeeded not because it is strictly superior, but because it is easier to explain and has a mature ecosystem. When you adopt Raft, you get production-hardened implementations, monitoring dashboards, operational runbooks, and engineers who've debugged Raft issues before. VR lacks this mature ecosystem (see "Existing Implementations and Ecosystem" section below for current status).
 
 ### 2. Implementation Complexity Beyond the Protocol
 
@@ -322,26 +332,11 @@ For teams without deep distributed systems expertise, mature Raft libraries hand
 
 ### 3. The Diskless Consensus Paradox
 
-VR's "diskless consensus" is both a strength and a PR problem.
-
-**The paradox:** Engineers correctly learn that consensus requires durability to prevent data loss. Then they encounter VR's claim that "disk is optional," which seems to contradict fundamental principles.
-
-The resolution is subtle: VR doesn't require *synchronous* disk writes in the commit path, but it still requires *eventual* durability via asynchronous checkpointing. This nuance is lost in most discussions.
-
-**Result:** VR gets dismissed as "unsafe" by engineers who haven't read the paper carefully, even though it's provably safe under the stated crash-fault model.
+VR's "diskless consensus" is both a strength and a PR problem. Engineers correctly learn that consensus requires durability, then encounter VR's claim that "disk is optional," which seems contradictory. As discussed in the "Why Viewstamped Replication Revisited Matters" section, the nuance—no *synchronous* disk writes but eventual async checkpointing required—is often lost, leading VR to be dismissed as "unsafe" despite being provably safe under its crash-fault model.
 
 ### 4. Configuration Change Ambiguity
 
-Raft's configuration change protocol (single-server changes in Raft, joint consensus in Raft Extended) is explicitly specified with clear safety proofs.
-
-VR's reconfiguration mechanism is described in the paper but leaves critical corner cases as "implementation details":
-- Overlapping configuration changes
-- Removing a replica that's currently primary
-- Ensuring quorum overlap during transition
-
-This isn't a fundamental flaw—VR can handle these cases—but it places more burden on implementers. Getting reconfiguration wrong leads to split-brain scenarios, which are catastrophic.
-
-**My opinion:** This is VR's biggest practical weakness. Until someone publishes a VR implementation with battle-tested reconfiguration and clear operational guidance, this will limit adoption.
+As discussed earlier in "Addressing the Original Protocol's Practical Limitations," VR's reconfiguration mechanism leaves critical corner cases underspecified compared to Raft's explicit joint consensus approach. This places more burden on implementers and represents VR's biggest practical weakness for production adoption.
 
 ---
 
@@ -389,21 +384,24 @@ Compare to a Raft cluster with synchronous disk writes requiring io2 for accepta
 
 ### Multi-Region Considerations
 
-VR's deterministic leader selection interacts poorly with geo-distribution:
+VR's deterministic leader selection creates both challenges and opportunities for geo-distribution:
 
-**Problem:** If replicas are in US-East, US-West, and EU, and view number always puts the leader in EU, cross-region latency dominates.
+**The challenge:** If replicas are in US-East, US-West, and EU, and the view number deterministically places the leader in EU, cross-region latency dominates performance.
 
-**Raft's advantage:** Randomized elections might accidentally select a US-based leader, improving latency for US clients.
+**Raft's approach:** Randomized elections might accidentally select a better-positioned leader, but this is unpredictable and can lead to inconsistent performance.
 
-**Solution for VR:** Incorporate region into leader selection:
+**VR's advantage:** Determinism makes poor leader placement *predictable* and *fixable*. You can implement topology-aware leader selection:
 ```
 preferred_region = select_region_based_on_client_distribution()
 primary = find_replica_in_region(preferred_region, view_number)
 ```
 
-But now you've sacrificed pure determinism, and you're implementing custom logic that Raft doesn't need.
+**The tradeoff:**
+- **VR**: Sacrifices pure determinism but gains controllable, predictable leader placement
+- **Raft**: Maintains protocol simplicity but leader placement remains timing-dependent
+- **Both**: Require additional complexity for optimal multi-region performance
 
-**My take:** For multi-region deployments, VR's determinism becomes a liability unless you build region-aware leader selection. At that point, you've lost simplicity without gaining enough to justify the implementation effort.
+For multi-region deployments, neither protocol has an inherent advantage. VR's determinism makes suboptimal placement visible and addressable through explicit policy, while Raft's randomness can work but provides no guarantees. Choose based on whether you prefer explicit control (VR) or simpler initial setup (Raft).
 
 ---
 
@@ -454,35 +452,14 @@ You'll get 70% of VR's throughput benefit with 10% of the implementation risk.
 ## Existing Implementations and Ecosystem
 
 ### Production-Ready
-
-**Zig**
-- **TigerBeetle** (production-grade, battle-tested)
-  - Financial ledger, optimized for VR
-  - Extensive simulation testing
-  - Clear operational model
+- **TigerBeetle** (Zig): Financial ledger with extensive simulation testing and clear operational model
 
 ### Experimental / Educational
+- **Zig**: Viewstamped Replication Made Famous (reference implementation)
+- **Rust**: `viewstamped-replication`, `vsr-rs`, `penberg/vsr-rs`, TLA+ specifications with reference implementations
+- **Python**: Educational implementations (university courses)
 
-**Zig**
-- Viewstamped Replication Made Famous (reference implementation)
-
-**Rust**
-- `viewstamped-replication` (crates.io)
-- `vsr-rs`
-- `penberg/vsr-rs`
-- Various TLA+ specifications with reference implementations
-
-**Python**
-- Educational implementations (university courses)
-
-Rust is particularly well-positioned for further VR experimentation due to its performance characteristics and emphasis on correctness. However, **none of the Rust implementations are production-ready as of 2025**. They lack:
-- Comprehensive failure injection testing
-- Operational monitoring and observability
-- Configuration change implementations
-- Performance optimization
-- Production deployment experience
-
-**The ecosystem gap is real.** If you want VR in production today, you're either using TigerBeetle's domain-specific implementation or building your own from the paper.
+**Current state (2025):** TigerBeetle remains the only production-ready VR implementation. Rust implementations show promise but lack comprehensive failure injection testing, operational monitoring, production-tested configuration changes, and deployment experience. The ecosystem gap discussed earlier remains significant.
 
 ---
 
@@ -619,11 +596,6 @@ Returning to the original question:
 
 > Under what conditions does Viewstamped Replication provide material advantages over more widely adopted protocols such as Paxos and Raft?
 
-**VR provides material advantages when:**
-1. Coordination throughput >100K ops/sec is required AND
-2. Deterministic failure reproduction has operational value AND
-3. You have expertise to implement/maintain it OR use TigerBeetle
-
-**For all other cases—which is >95% of distributed systems—Raft's ecosystem maturity, operational tooling, and lower implementation risk make it the pragmatic choice.**
+As detailed in the decision framework above, **VR provides material advantages only in specific scenarios** where ultra-high throughput, deterministic debuggability, and expert implementation capacity converge. For the majority of distributed systems, Raft's ecosystem maturity and operational tooling make it the pragmatic choice.
 
 VR is an elegant protocol that deserves wider understanding. But understanding something and betting your production system on it are different decisions. Choose wisely.
