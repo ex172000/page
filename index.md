@@ -21,7 +21,7 @@ Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sai
 - Payments (2018–2020): Tech Lead for Collections & Cashouts; led 3DS/SCA rollout across 60+ payment flows in the EEA
 - Identity (2018): maintained OAuth platform, delivered Alipay integration and Google Maps JWT-based integration
 
-**Member of Technical Staff** | VMware, Network & Security Business Unit
+**Member of Technical Staff** | VMware
 
 - Enhanced NSX-V product security for FIPS certification, including upstream (Python) patches
 - Implemented CLI and daemon to support Java profiling on NSX-T/V Controllers
