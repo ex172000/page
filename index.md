@@ -10,7 +10,7 @@ Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sai
 
 ## Experience
 
-**Software Engineer, Tech Lead Manager (TLM)** | Uber
+**Software Engineer, Tech Lead Manager** | Uber
 
 - Led Uber's trip-critical Kafka Messaging Platform (KCP/uForwarder, Kafka REST Proxy, uReplicator): reliability, on-call, and roadmap
 - Drove replication re-architecture, Flink-based ingestion, and AutoMQ/RBS adoption for durability and operational simplicity
