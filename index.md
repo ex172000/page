@@ -23,7 +23,6 @@ Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sai
 
 **Member of Technical Staff** | VMware, Network & Security Business Unit
 
-- Implemented CDO mode IPS mode cluster level API
 - Enhanced NSX-V product security for FIPS certification, including upstream (Python) patches
 - Implemented CLI and daemon to support Java profiling on NSX-T/V Controllers
 
