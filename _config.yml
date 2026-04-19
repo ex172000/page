@@ -15,7 +15,5 @@ sass:
     sass_dir: _sass
 
 nav:
- - name: "Posts"
-   link: "posts"
  - name: "Resume"
    link: "resume.pdf"

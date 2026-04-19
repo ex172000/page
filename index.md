@@ -10,45 +10,22 @@ Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sai
 
 ## Experience
 
-**Software Engineer, Tech Lead Manager (TLM)** | Uber, Kafka - Platform Engineering
+**Software Engineer, Tech Lead Manager (TLM)** | Uber
 
-Led Uber's trip-critical Kafka Messaging platform ([Kafka Consumer Proxy](https://www.uber.com/blog/kafka-async-queuing-with-consumer-proxy/)/uForwarder, Kafka REST Proxy, [uReplicator](https://www.uber.com/blog/ureplicator-apache-kafka-replicator/)), accountable for reliability, on-call outcomes, and roadmap execution.
-
-- Drove platform architecture: replication re-architecture, Flink-based ingestion, and AutoMQ/RBS adoption to improve durability and operational simplicity
-- Cut consumer incident mitigation from ~3 hours to ~30 minutes by designing freshness-restore + automated failover/backfill workflows across KCP and replication pipelines
-- Implemented and supporting: native/proxy clients, retryQ/DLQ, context propagation, zone isolation, workload rebalance, metadata storage (Zookeeper) and much more
-- Owned uGroup (Kafka consumer monitoring) end-to-end
-- ex-TLM of Kafka Control Plane, enhanced internal Kafka metadata management with cloud-like experience. Strengthened cross-region reliability through source-of-truth re-architecture
-
-Also, *Knowledge Platform Founding Member*. Supporting Online Data AI transformation with:
-
-- Built efficient CPU-based embedding generation service for large-scale near realtime ingestion
-- Built knowledge data intake (WebSocket push, API fetch, etc) service featuring OpenSearch indexing, LanceDB persistence, and taxonomy/ontology extraction
-
-Additionally, *Active Uber Ring0 First Responder*. Safeguarding the entire Uber as a Global incident responder / incident commander: coordinated cross-team mitigations including lockdowns and failovers during SEVs.
-
-**Software Engineer** | Uber, Money - Core Services
-
-Tech Lead of Collections & Cashouts team, moving money in and out of Uber for the areas of arrears collection and driver cashout, in a secure, efficient and scalable way.
-
-- Led 3DS/SCA project, worked with 10+ teams and 10+ European banks to enable two-factor auth for credit card payment across 60+ payment flows in European Economic Area
-- Integrated UberPay in arrears collection, instantly unlocking more payment service providers in different regions without repeated integration
-
-**Software Engineer** | Uber, Identity - Security Engineering
-
-- Maintained Uber's 3rd party customer identity platform for OAuth and external provider integrations
-- Implemented both backend and frontend changes for new Alipay-Uber integration
-- Enabled Uber in Google Maps with new JWT-based 3rd-party integration
+- Led Uber's trip-critical Kafka Messaging platform (KCP/uForwarder, Kafka REST Proxy, uReplicator): reliability, on-call, and roadmap
+- Drove replication re-architecture, Flink-based ingestion, and AutoMQ/RBS adoption for durability and operational simplicity
+- Cut consumer incident mitigation from ~3 hours to ~30 minutes via freshness-restore and automated failover/backfill workflows
+- Owned uGroup (Kafka consumer monitoring) end-to-end; ex-TLM of Kafka Control Plane
+- Knowledge Platform Founding Member: built embedding generation and knowledge intake services (OpenSearch, LanceDB)
+- Ring0 First Responder: incident commander for company-wide SEVs
+- Money/Core: Tech Lead for Collections & Cashouts; led 3DS/SCA rollout across 60+ payment flows in the EEA
+- Identity/Security: maintained OAuth platform, delivered Alipay integration and Google Maps JWT-based integration
 
 **Member of Technical Staff** | VMware, Network & Security Business Unit
 
 - Implemented CDO mode IPS mode cluster level API
 - Enhanced NSX-V product security for FIPS certification, including upstream (Python) patches
 - Implemented CLI and daemon to support Java profiling on NSX-T/V Controllers
-
-**Software Engineer Intern** | Alibaba Group, Data Technology & Product Division
-
-- Built an Apache Storm and Apache Kafka based large scale realtime crawler, with peak performance of 10M pages/day
 
 ## Publications
 
