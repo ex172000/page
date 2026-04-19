@@ -33,6 +33,4 @@ Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sai
 
 ## Education
 
-**M.S. ECE** | Georgia Institute of Technology
-
-Research Assistant, Contributed to DoE ARPA-E with data collection application CommuteWarrior
+**M.S. ECE, Research Assistant** | Georgia Institute of Technology
