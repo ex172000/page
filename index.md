@@ -12,7 +12,7 @@ Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sai
 
 **Software Engineer, Tech Lead Manager (TLM)** | Uber
 
-- Led Uber's trip-critical Kafka Messaging platform (KCP/uForwarder, Kafka REST Proxy, uReplicator): reliability, on-call, and roadmap
+- Led Uber's trip-critical Kafka Messaging Platform (KCP/uForwarder, Kafka REST Proxy, uReplicator): reliability, on-call, and roadmap
 - Drove replication re-architecture, Flink-based ingestion, and AutoMQ/RBS adoption for durability and operational simplicity
 - Cut consumer incident mitigation from ~3 hours to ~30 minutes via freshness-restore and automated failover/backfill workflows
 - Owned uGroup (Kafka consumer monitoring) end-to-end; ex-TLM of Kafka Control Plane
@@ -33,6 +33,6 @@ Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sai
 
 ## Education
 
-**Master of Science in Electrical & Computer Engineering** | Georgia Institute of Technology
+**M.S. ECE** | Georgia Institute of Technology
 
 Research Assistant, Contributed to DoE ARPA-E with data collection application CommuteWarrior
