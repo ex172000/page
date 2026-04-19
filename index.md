@@ -18,8 +18,8 @@ Outside of work, I am an FAA-certified Private Pilot, an ASA-103–certified sai
 - Owned uGroup (Kafka consumer monitoring) end-to-end; ex-TLM of Kafka Control Plane
 - Knowledge Platform Founding Member: built embedding generation and knowledge intake services (OpenSearch, LanceDB)
 - Ring0 First Responder: incident commander for company-wide SEVs
-- Money/Core: Tech Lead for Collections & Cashouts; led 3DS/SCA rollout across 60+ payment flows in the EEA
-- Identity/Security: maintained OAuth platform, delivered Alipay integration and Google Maps JWT-based integration
+- Payments (2018–2020): Tech Lead for Collections & Cashouts; led 3DS/SCA rollout across 60+ payment flows in the EEA
+- Identity (2018): maintained OAuth platform, delivered Alipay integration and Google Maps JWT-based integration
 
 **Member of Technical Staff** | VMware, Network & Security Business Unit
 
