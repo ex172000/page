@@ -8,7 +8,7 @@ tracking_id: #
 
 footer: yes
 footer_url: "https://github.com/ex172000"
-footer_text: "Belmont, CA | find.qichao@gmail.com"
+footer_text: "Belmont, CA | find.qichao@gmail.com\n\n"
 
 sass:
     style: compressed
